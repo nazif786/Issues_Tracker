@@ -33,7 +33,7 @@ const Navbar = () => {
             //   link.href === current ? "text-zinc-800" : " text-zinc-500"
             // } space-x-6 `}
           >
-            {link.label}{" "}
+            {link.label}
           </Link>
         ))}
       </ul>
