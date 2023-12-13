@@ -1,19 +1,84 @@
 "use client";
-import { Button, Heading, TextField } from "@radix-ui/themes";
+import { Button, Callout, Heading, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
+import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+interface IssueForm {
+  title: string;
+  discription: string;
+}
 
 const NewIssuePage = () => {
+  const { register, control, handleSubmit, reset } = useForm<IssueForm>();
+  const router = useRouter();
+  const [error, setError] = useState("");
   return (
-    <div className="max-w-xl px-5 space-y-3 ">
-      <Heading>Add New Issue </Heading>
-      <TextField.Root>
-        <TextField.Input placeholder="Title" />
-      </TextField.Root>
-      <SimpleMDE placeholder="Discription... " />;{/* <TextArea  /> */}
-      <Button>Submit New Issue</Button>
+    <div className="px-5 max-w-full">
+      {error && (
+        <Callout.Root>
+          <Callout.Text color="red">{error}</Callout.Text>
+        </Callout.Root>
+      )}
+      <form
+        className="space-y-3 "
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            await axios.post("/api/issues", data);
+            router.push("/issues");
+          } catch (error) {
+            setError("Unexpencted Error Happened");
+          }
+          // reset;
+        })}
+        // onSubmit={() => {
+        //   handleSubmit(async (data) => {
+        //     try {
+        //       await axios.post("/api/issues", data);
+        //       router.push("/issues");
+        //     } catch (error) {
+        //       console.log(error);
+        //     }
+        //   });
+        // }}
+      >
+        <Heading>Add New Issue </Heading>
+        <TextField.Root>
+          <TextField.Input placeholder="Title" {...register("title")} />
+        </TextField.Root>
+        <Controller
+          name="discription"
+          control={control}
+          render={({ field }) => (
+            <SimpleMDE placeholder="Discription... " {...field} />
+          )}
+        />
+        ;{/* <TextArea  /> */}
+        <Button>Submit New Issue</Button>
+      </form>
     </div>
   );
 };
 
 export default NewIssuePage;
+
+//-------- if there is issue with navigator not defined then use this code instead
+
+// onSubmit={handleSubmit(async (data) => {
+//   try {
+//       const response = await fetch("/api/issues", {
+//           method: "POST",
+//           headers: {
+//               "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify(data),
+//       });
+//       if (!response.ok) throw new Error();
+//       router.push("/issues");
+//   } catch (error) {
+//       setError("An unexpected error occurred.");
+//   }
+// })}

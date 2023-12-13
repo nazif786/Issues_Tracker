@@ -15,7 +15,13 @@ const Navbar = () => {
   return (
     <nav className="flex mb-5 space-x-6 items-center h-14 border-b px-5">
       <Link href="/">
-        <Image src={logo} alt="logo" width={50} height={50} />
+        <Image
+          src={logo}
+          alt="logo"
+          width={50}
+          height={50}
+          className="h-auto w-auto"
+        />
       </Link>
 
       <ul className="flex space-x-6 ">
