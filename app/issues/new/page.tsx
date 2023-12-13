@@ -1,19 +1,26 @@
 "use client";
-import { Button, Callout, Heading, TextField } from "@radix-ui/themes";
+import { Button, Callout, Heading, TextField, Text } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { issueSchema } from "@/app/validationSchemas";
 
-interface IssueForm {
-  title: string;
-  discription: string;
-}
+type IssueForm = z.infer<typeof issueSchema>;
 
 const NewIssuePage = () => {
-  const { register, control, handleSubmit, reset } = useForm<IssueForm>();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
+    resolver: zodResolver(issueSchema),
+  });
   const router = useRouter();
   const [error, setError] = useState("");
   return (
@@ -32,23 +39,22 @@ const NewIssuePage = () => {
           } catch (error) {
             setError("Unexpencted Error Happened");
           }
-          // reset;
         })}
-        // onSubmit={() => {
-        //   handleSubmit(async (data) => {
-        //     try {
-        //       await axios.post("/api/issues", data);
-        //       router.push("/issues");
-        //     } catch (error) {
-        //       console.log(error);
-        //     }
-        //   });
-        // }}
       >
         <Heading>Add New Issue </Heading>
+        {errors.title && (
+          <Text as="p" color="red">
+            {errors.title?.message}
+          </Text>
+        )}
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
+        {errors.discription && (
+          <Text as="p" color="red">
+            {errors.discription?.message}
+          </Text>
+        )}
         <Controller
           name="discription"
           control={control}
