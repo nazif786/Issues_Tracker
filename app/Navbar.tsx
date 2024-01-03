@@ -13,7 +13,7 @@ const Navbar = () => {
     { label: "Issues", href: "/issues" },
   ];
   return (
-    <nav className="flex mb-5 space-x-6 items-center h-14 border-b px-5">
+    <nav className="flex mb-5 space-x-6 px-5 items-center h-14 border-b ">
       <Link href="/">
         <Image
           src={logo}
