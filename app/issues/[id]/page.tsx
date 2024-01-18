@@ -24,5 +24,6 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
     </Grid>
   );
 };
-
+export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 export default IssueDetailPage;
