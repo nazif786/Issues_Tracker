@@ -4,13 +4,7 @@ import prisma from "@/prisma/client";
 
 export async function PATCH(
   request: NextRequest,
-  {
-    params,
-  }: {
-    params: {
-      id: string;
-    };
-  }
+  { params }: { params: { id: string } }
 ) {
   const body = await request.json();
   const validData = issueSchema.safeParse(body);
