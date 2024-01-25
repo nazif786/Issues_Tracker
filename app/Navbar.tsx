@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import classname from "classnames";
 import { useSession } from "next-auth/react";
-import { Box } from "@radix-ui/themes";
+import { Box, Container, Flex } from "@radix-ui/themes";
 
 const Navbar = () => {
   const current = usePathname();
@@ -16,46 +16,52 @@ const Navbar = () => {
   ];
   const { status, data: session } = useSession();
   return (
-    <nav className="flex mb-5 space-x-6 px-5 items-center h-14 border-b ">
-      <Link href="/">
-        <Image
-          src={logo}
-          alt="logo"
-          width={50}
-          height={50}
-          className="h-auto w-auto"
-        />
-      </Link>
-
-      <ul className="flex space-x-6 ">
-        {links.map((link) => (
-          <li key={link.href}>
-            <Link
-              href={link.href}
-              className={classname({
-                "text-zinc-800": link.href === current,
-                "text-zinc-500": link.href !== current,
-                "hover:text-zinc-800 transition-colors": true,
-              })}
-
-              // {` ${
-              //   link.href === current ? "text-zinc-800" : " text-zinc-500"
-              // } space-x-6 `}
-            >
-              {link.label}
+    <Container>
+      <nav className="border-b mb-5 px-5 py-1">
+        <Flex justify="between">
+          <Flex align="center" gap="3">
+            <Link href="/">
+              <Image
+                src={logo}
+                alt="logo"
+                width={24}
+                height={24}
+                className="h-auto w-auto"
+              />
             </Link>
-          </li>
-        ))}
-      </ul>
-      <Box>
-        {status === "authenticated" && (
-          <Link href="/api/auth/signout">Log out</Link>
-        )}
-        {status === "unauthenticated" && (
-          <Link href="/api/auth/signin">Log in</Link>
-        )}
-      </Box>
-    </nav>
+
+            <ul className="flex space-x-6 ">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={classname({
+                      "text-zinc-800": link.href === current,
+                      "text-zinc-500": link.href !== current,
+                      "hover:text-zinc-800 transition-colors": true,
+                    })}
+
+                    // {` ${
+                    //   link.href === current ? "text-zinc-800" : " text-zinc-500"
+                    // } space-x-6 `}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Box>
+              {status === "authenticated" && (
+                <Link href="/api/auth/signout">Log out</Link>
+              )}
+              {status === "unauthenticated" && (
+                <Link href="/api/auth/signin">Log in</Link>
+              )}
+            </Box>
+          </Flex>
+        </Flex>
+      </nav>
+    </Container>
   );
 };
 
