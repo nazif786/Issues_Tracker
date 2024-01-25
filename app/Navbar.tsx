@@ -6,7 +6,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import classname from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 const Navbar = () => {
   const current = usePathname();
@@ -50,15 +57,33 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            <Box>
-              {status === "authenticated" && (
-                <Link href="/api/auth/signout">Log out</Link>
-              )}
-              {status === "unauthenticated" && (
-                <Link href="/api/auth/signin">Log in</Link>
-              )}
-            </Box>
           </Flex>
+          <Box>
+            {status === "authenticated" && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src={session.user?.image!}
+                    fallback="?"
+                    size="2"
+                    radius="full"
+                    className="cursor-pointer"
+                  />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Item>
+                    <Text size="2">{session.user!.email || "email"} </Text>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item>
+                    <Link href="/api/auth/signout">Log out</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
+            {status === "unauthenticated" && (
+              <Link href="/api/auth/signin">Log in</Link>
+            )}
+          </Box>
         </Flex>
       </nav>
     </Container>
