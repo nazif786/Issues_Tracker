@@ -12,18 +12,19 @@ export async function PATCH(
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
-  const { assignedToUserId, title, discription } = body;
+  const { assignedToUserId, title, discription } = await body;
 
   const validData = patchIssueSchema.safeParse(body);
 
   if (!validData.success)
-    return NextResponse.json(validData.error.format(), { status: 201 });
+    return NextResponse.json(validData.error.format(), { status: 400 });
   // if assigedToUserId is provided. issue is assigned to user
   if (assignedToUserId) {
     // get the user with current id if provided from UI (select menu)
     const user = await prisma.user.findUnique({
       where: { id: assignedToUserId },
     });
+
     // validate the user from db
     if (!user)
       return NextResponse.json({ error: "Invalid User" }, { status: 400 });

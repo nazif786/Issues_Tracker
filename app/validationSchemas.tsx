@@ -15,11 +15,13 @@ export const patchIssueSchema = z.object({
   title: z
     .string()
     .min(2, { message: "Title is required with minimum 2 charactors." })
-    .max(255),
+    .max(255)
+    .optional(),
   discription: z
     .string()
     .min(3, { message: "Title is required with minimum 2 charactors." })
-    .max(2000),
+    .max(2000)
+    .optional(),
   assignedToUserId: z
     .string()
     .min(1, "Assigned to user Id is required")
