@@ -11,10 +11,10 @@ const statuses: { label: string; value?: Status }[] = [
 const IssueStatusFilter = () => {
   return (
     <Select.Root>
-      <Select.Trigger />
+      <Select.Trigger placeholder="Issues Status" />
       <Select.Content>
         {statuses.map((status) => (
-          <Select.Item key={status.value} value={status.value || ""}>
+          <Select.Item key={status.value} value={status.value || "null"}>
             {status.label}
           </Select.Item>
         ))}
