@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Pagination from "./issues/_components/Pagination";
+import { Flex } from "@radix-ui/themes";
+import LatestIssues from "./latestIssues/page";
 
 export default function Home({
   searchParams,
@@ -7,13 +7,8 @@ export default function Home({
   searchParams: { page: string };
 }) {
   return (
-    <div>
-      <p> hello issue tracker </p>
-      <Pagination
-        itemCount={100}
-        pageSize={10}
-        currentPage={parseInt(searchParams.page)}
-      />
-    </div>
+    <Flex direction="column">
+      <LatestIssues />
+    </Flex>
   );
 }
