@@ -27,7 +27,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         onValueChange={(userId) => {
           axios
             .patch("/api/issues/" + issue.id, {
-              assignedToUserId: userId === "null" ? null : userId,
+              assignedToUserId: userId === "unAssigned" ? null : userId,
             })
             .catch(() => {
               toast.error("could not assing the issue to user ");
@@ -38,7 +38,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         <Select.Content>
           <Select.Group>
             <Select.Label>suggestions</Select.Label>
-            <Select.Item value="null">UnAssigned</Select.Item>
+            <Select.Item value="unAssigned">UnAssigned</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
                 {user.name}
@@ -47,6 +47,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
+
       <Toaster />
     </>
   );
