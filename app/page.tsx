@@ -21,6 +21,8 @@ export default async function Home() {
     </Grid>
   );
 }
+
+// export metat data
 export const metadata: Metadata = {
   title: "Issue Tracker - Dashboard",
   description: "View a Summury of the Project Issues",
